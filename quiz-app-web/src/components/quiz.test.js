@@ -27,6 +27,9 @@ describe("Quiz component", () => {
       expect(screen.getByText("Thank you for taking this quiz.")).toBeInTheDocument();
     });
     expect(QuizPost).toHaveBeenCalledTimes(1);
+    const sent = QuizPost.mock.calls[0][0];
+    expect(sent).not.toHaveProperty("score");
+    expect(sent.question.map((item) => item.answerText)).toEqual(answers);
   });
 });
 

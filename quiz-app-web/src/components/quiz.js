@@ -19,7 +19,7 @@ const Quiz = () => {
   const updated=questionsList.map((item,index)=>index===currentQuestion?{...item,answerText:currentAnswer}:item);
   if(currentQuestion+1<questions.length){setQuestionsList(updated);setCurrentAnswer("");setCurrentQuestion(value=>value+1);setDeadline(Date.now()+QUESTION_MS);timedOutQuestion.current=-1;return;}
   busy.current=true;setIsSaving(true);setSubmitError("");
-  try{await QuizPost({question:updated,submittedBy:"",evaluatedBy:"",score:0});setQuestionsList(updated);setSubmitted(true);}
+  try{await QuizPost({question:updated});setQuestionsList(updated);setSubmitted(true);}
   catch(error){setSubmitError(error.message || "Your answers could not be saved. Please try again.");}
   finally{busy.current=false;setIsSaving(false);}
  },[questionsList,currentQuestion,currentAnswer,submitted]);

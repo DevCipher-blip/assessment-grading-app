@@ -6,7 +6,7 @@ class Question(models.Model):
     answer_text = models.TextField(max_length=800)
 
     def __str__(self):
-        return str(self.id)
+        return self.question_text[:80]
 
 
 class QuizAnswer(models.Model):
@@ -14,14 +14,15 @@ class QuizAnswer(models.Model):
     submitted_answer = models.TextField(max_length=800)
 
     def __str__(self):
-        return str(self.id)
+        return f"Answer {self.id} to question {self.question_id}"
 
 
 class Quiz(models.Model):
     question_response = models.ManyToManyField(QuizAnswer, blank=True)
-    submitted_by = models.CharField(max_length=150)
-    evaluated_by = models.CharField(max_length=150)
-    score = models.IntegerField()
+    submitted_by = models.CharField(max_length=150, blank=True, default="")
+    evaluated_by = models.CharField(max_length=150, blank=True, default="")
+    # NULL means nobody has scored the submission yet; 0 is a real score.
+    score = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return str(self.id)
+        return f"Submission {self.id}"
