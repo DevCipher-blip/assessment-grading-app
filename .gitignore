@@ -1,0 +1,42 @@
+# Dependencies and virtual environments
+node_modules/
+.venv/
+venv/
+project_venv/
+
+# Build output
+build/
+dist/
+
+# Python caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local data
+db.sqlite3
+*.sqlite3
+
+# Environment files (keep the examples)
+.env
+.env.*
+!.env.example
+
+# Logs, coverage and scratch
+*.log
+npm-debug.log*
+logs/
+tmp/
+coverage/
+.coverage
+htmlcov/
+
+# Editor and OS files
+.DS_Store
+.idea/
+.vscode/
+
+# Not tracked in this repository
+.github/
