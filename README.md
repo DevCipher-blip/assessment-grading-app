@@ -12,19 +12,19 @@ The [mobile preview](docs/quiz-mobile.png) uses the same bundled question. Brows
 
 ## Run locally
 
-Use Python 3.11, Node.js 22, and npm 11.6.2 for the reviewed frontend lock. In the backend directory:
+Use Python 3.13, Node.js 22, and npm 11.6.2 for the reviewed frontend lock. In the backend directory:
 
 ```sh
 cd quiz_app_api
 python3 -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 export DJANGO_DEBUG=true
 python manage.py migrate
 python manage.py runserver 127.0.0.1:8000
 ```
 
-The historical requirements pin Django 4.1.7; review tests used Django 4.2. The API reads process environment variables, not `.env` automatically. Explicit local debug generates an ephemeral key when none is supplied; a private `DJANGO_SECRET_KEY` is required otherwise. Hosts default to loopback names and browser CORS origins are limited to the local React development origins.
+The API pins Django 5.2 LTS. The API reads process environment variables, not `.env` automatically. Explicit local debug generates an ephemeral key when none is supplied; a private `DJANGO_SECRET_KEY` is required otherwise. Hosts default to loopback names and browser CORS origins are limited to the local React development origins.
 
 In another terminal:
 

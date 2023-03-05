@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from quiz.models import *
+from quiz.models import Question, Quiz, QuizAnswer
 
-myModels = [Question, QuizAnswer, Quiz]
-admin.site.register(myModels)
+admin.site.register([Question, QuizAnswer, Quiz])
