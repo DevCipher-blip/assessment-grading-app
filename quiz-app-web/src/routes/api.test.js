@@ -37,4 +37,27 @@ describe("QuizPost", () => {
 
     await expect(QuizPost({})).rejects.toThrow("Missing required fields");
   });
+
+  it("explains a network failure instead of surfacing the browser's TypeError", async () => {
+    fetch.mockRejectedValueOnce(new TypeError("Failed to fetch"));
+
+    await expect(QuizPost({})).rejects.toThrow("could not reach the server");
+  });
+
+  it("reports the status when an error response is not JSON", async () => {
+    fetch.mockResolvedValueOnce({
+      ok: false,
+      status: 502,
+      json: jest.fn().mockRejectedValue(new SyntaxError("Unexpected token <")),
+    });
+
+    await expect(QuizPost({})).rejects.toThrow("HTTP 502");
+  });
+
+  it("fails clearly when the API base URL is missing", async () => {
+    delete process.env.REACT_APP_API_BASEURL;
+
+    await expect(QuizPost({})).rejects.toThrow("REACT_APP_API_BASEURL is not configured");
+    expect(fetch).not.toHaveBeenCalled();
+  });
 });

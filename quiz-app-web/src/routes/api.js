@@ -1,31 +1,34 @@
+const OFFLINE_MESSAGE = "The answers could not reach the server. Check that the API is running and try again.";
+
+async function readJson(response) {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
 export async function QuizPost(quiz) {
-  const base_url = process.env.REACT_APP_API_BASEURL;
-  if (!base_url) {
+  const baseUrl = process.env.REACT_APP_API_BASEURL;
+  if (!baseUrl) {
     throw new Error("REACT_APP_API_BASEURL is not configured");
   }
 
+  let response;
   try {
-    const response = await fetch(`${base_url.replace(/\/$/, "")}/submit_quiz/`, {
+    response = await fetch(`${baseUrl.replace(/\/$/, "")}/submit_quiz/`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        data: quiz,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ data: quiz }),
     });
-
-    const payload = await response.json();
-    if (!response.ok) {
-      const message = payload.msg || payload.detail || "Failed to submit quiz";
-      throw new Error(message);
-    }
-
-    return payload;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw error;
-    }
-    throw new Error("Unable to connect to quiz API");
+  } catch {
+    // fetch only rejects for network-level failures (server down, CORS, offline).
+    throw new Error(OFFLINE_MESSAGE);
   }
+
+  const payload = await readJson(response);
+  if (!response.ok) {
+    throw new Error(payload?.msg || payload?.detail || `The server rejected the answers (HTTP ${response.status}).`);
+  }
+  return payload ?? {};
 }
