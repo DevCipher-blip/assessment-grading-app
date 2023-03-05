@@ -1,15 +1,15 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import Quiz from "./quiz";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
+import Quiz from "./quiz.jsx";
 import { QuizPost } from "../routes/api";
 
-jest.mock("react-countdown", () => () => <div>timer</div>);
-jest.mock("../routes/api", () => ({
-  QuizPost: jest.fn(),
+vi.mock("react-countdown", () => ({ default: () => <div>timer</div> }));
+vi.mock("../routes/api", () => ({
+  QuizPost: vi.fn(),
 }));
 
 describe("Quiz component", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it("submits answers and shows completion message", async () => {
@@ -46,10 +46,10 @@ it("retains the final answer after a failed save and prevents duplicate pending 
 });
 
 it("typing does not extend the per-question deadline",()=>{
- jest.useFakeTimers();render(<Quiz/>);
+ vi.useFakeTimers();render(<Quiz/>);
  fireEvent.change(screen.getByRole('textbox'),{target:{value:'A draft'}});
- jest.advanceTimersByTime(170000);
+ act(()=>vi.advanceTimersByTime(170000));
  fireEvent.change(screen.getByRole('textbox'),{target:{value:'Still drafting'}});
- const {act}=require('@testing-library/react');act(()=>jest.advanceTimersByTime(10000));
- expect(screen.getByText('Question 2 / 5')).toBeInTheDocument();jest.useRealTimers();
+ act(()=>vi.advanceTimersByTime(10000));
+ expect(screen.getByText('Question 2 / 5')).toBeInTheDocument();vi.useRealTimers();
 });

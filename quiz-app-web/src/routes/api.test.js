@@ -1,21 +1,20 @@
 import { QuizPost } from "./api";
 
 describe("QuizPost", () => {
-  const originalEnv = process.env;
-
   beforeEach(() => {
-    process.env = { ...originalEnv, REACT_APP_API_BASEURL: "http://localhost:8000/" };
-    global.fetch = jest.fn();
+    vi.stubEnv("VITE_API_BASEURL", "http://localhost:8000/");
+    vi.stubGlobal("fetch", vi.fn());
   });
 
-  afterAll(() => {
-    process.env = originalEnv;
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
   });
 
   it("posts quiz and returns response payload", async () => {
     fetch.mockResolvedValueOnce({
       ok: true,
-      json: jest.fn().mockResolvedValue({ msg: "ok" }),
+      json: vi.fn().mockResolvedValue({ msg: "ok" }),
     });
     const response = await QuizPost({ submittedBy: "test" });
 
@@ -32,7 +31,7 @@ describe("QuizPost", () => {
   it("throws API message when server responds with error payload", async () => {
     fetch.mockResolvedValueOnce({
       ok: false,
-      json: jest.fn().mockResolvedValue({ msg: "Missing required fields" }),
+      json: vi.fn().mockResolvedValue({ msg: "Missing required fields" }),
     });
 
     await expect(QuizPost({})).rejects.toThrow("Missing required fields");
@@ -48,16 +47,16 @@ describe("QuizPost", () => {
     fetch.mockResolvedValueOnce({
       ok: false,
       status: 502,
-      json: jest.fn().mockRejectedValue(new SyntaxError("Unexpected token <")),
+      json: vi.fn().mockRejectedValue(new SyntaxError("Unexpected token <")),
     });
 
     await expect(QuizPost({})).rejects.toThrow("HTTP 502");
   });
 
   it("fails clearly when the API base URL is missing", async () => {
-    delete process.env.REACT_APP_API_BASEURL;
+    vi.stubEnv("VITE_API_BASEURL", "");
 
-    await expect(QuizPost({})).rejects.toThrow("REACT_APP_API_BASEURL is not configured");
+    await expect(QuizPost({})).rejects.toThrow("VITE_API_BASEURL is not configured");
     expect(fetch).not.toHaveBeenCalled();
   });
 });

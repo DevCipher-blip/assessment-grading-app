@@ -1,29 +1,16 @@
-# Quiz-App-Web
-### Setup
-- The web frontend is built using React
-- Make sure you have Node 16+ installed on your system
-- Clone the repo on your local
-- Install NVM on your system
-- Installed Node 16 using NVM:
+# quiz-app-web
+
+React client for the written-response exercise, built with Vite and tested with Vitest.
+
+Node.js 22.12 or newer is required (see `.nvmrc`).
+
+```sh
+npm ci
+cp .env.example .env   # VITE_API_BASEURL points at the Django API
+npm run dev            # http://localhost:5173
+npm test
+npm run lint
+npm run build          # writes dist/
 ```
-nvm install 16
-```
-- Use Node 16 using NVM:
-```
-nvm use 16
-```
-- Navigate to the directory containing packages.json
-- Install npm packages using:
-```
-npm install
-```
-- Create a `.env` file in root (same directory as packages.json) and place the env variables there
-- Replace the url of the API which needs to be connected to the frontend by replacing the value of the following env variable in the `.env` file. Sample value for the env variable is provided for ease:
-```
-REACT_APP_API_BASEURL=http://localhost:8000/
-```
-- Run the server using:
-```
-npm start
-```
-- The server is up now on http://127.0.0.1:3000
+
+`VITE_API_BASEURL` is read at build time, so rebuild after changing it.

@@ -9,9 +9,9 @@ async function readJson(response) {
 }
 
 export async function QuizPost(quiz) {
-  const baseUrl = process.env.REACT_APP_API_BASEURL;
+  const baseUrl = import.meta.env.VITE_API_BASEURL;
   if (!baseUrl) {
-    throw new Error("REACT_APP_API_BASEURL is not configured");
+    throw new Error("VITE_API_BASEURL is not configured");
   }
 
   let response;

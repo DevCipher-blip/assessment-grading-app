@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import questions from "../constants/constants";
 import { QuizPost } from "../routes/api";
 import Countdown from "react-countdown";

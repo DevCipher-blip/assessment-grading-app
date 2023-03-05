@@ -8,7 +8,7 @@ The [mobile preview](docs/quiz-mobile.png) uses the same bundled question. Brows
 
 ## Two separate packages
 
-`quiz-app-web/` is a Create React App client. `quiz_app_api/` is a Django API with questions, submitted answers, and quiz records. The server accepts plain JSON or the browser's `{ "data": ... }` wrapper and saves the complete submission in one database transaction.
+`quiz-app-web/` is a React client built with Vite. `quiz_app_api/` is a Django API with questions, submitted answers, and quiz records. The server accepts plain JSON or the browser's `{ "data": ... }` wrapper and saves the complete submission in one database transaction.
 
 ## Run locally
 
@@ -32,10 +32,10 @@ In another terminal:
 cd quiz-app-web
 npm exec --yes --package=npm@11.6.2 -- npm ci --ignore-scripts
 cp .env.example .env
-npm start
+npm run dev
 ```
 
-Open `http://localhost:3000`. `REACT_APP_API_BASEURL` is the backend origin, for example `http://localhost:8000/`. The client appends `/submit_quiz/`; the Django API does not use an `/api` prefix. No global database, seed script, or provider account is required.
+Open `http://localhost:5173`. `VITE_API_BASEURL` is the backend origin, for example `http://localhost:8000/`. The client appends `/submit_quiz/`; the Django API does not use an `/api` prefix. No global database, seed script, or provider account is required.
 
 ## Timing and failed saves
 
@@ -60,8 +60,8 @@ A successful response is 201 with `msg`. Payloads must be objects; questions mus
 
 ## Evidence and next work
 
-Six Django API tests pass against a temporary SQLite test database, and six React/API tests pass. They cover both payload shapes, malformed input, all-or-nothing validation, the five-answer flow, failed-save retention, pending-submit disabling, and typing without extending the deadline. The CRA production build passes. Chrome verifies a synthetic failed final save, preserved retry payload, successful completion, and desktop/390px layout without page errors.
+Six Django API tests pass against a temporary SQLite test database, and six React/API tests pass. They cover both payload shapes, malformed input, all-or-nothing validation, the five-answer flow, failed-save retention, pending-submit disabling, and typing without extending the deadline. The Vite production build passes. Chrome verifies a synthetic failed final save, preserved retry payload, successful completion, and desktop/390px layout without page errors.
 
-The original frontend lock selected an incompatible TypeScript 6 peer for CRA. TypeScript 4.9.5 is now explicit and npm 11 clean installation passed; npm 10 still rejected different peer-lock metadata. The framework was not migrated. Existing legacy dependency advisories and test-tool deprecation warnings remain separate maintenance work.
+The client moved from Create React App to Vite and Vitest, which removed the unmaintained build chain and its dependency advisories.
 
 Useful next decisions are the timing rule, an actual evaluation rubric if scoring is wanted, and authenticated ownership if this will collect real responses. The current endpoint is anonymous, accepts caller-provided identity labels/score, has no submission idempotency, and is a local exercise. The preset trivia prompts have not been validated as an assessment or fact-checked in this review. There is no claimed AI/ML component.
