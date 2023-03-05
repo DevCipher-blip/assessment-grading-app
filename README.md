@@ -1,6 +1,6 @@
 # Written-response collection exercise
 
-A small React and Django REST Framework application that presents five preset prompts and stores the written answers in SQLite. Despite the repository name, it does not implement grading, an AI evaluator, a validated assessment, or goal scoring. The browser submits a placeholder score of zero and empty submitter/evaluator labels.
+A small React and Django REST Framework application that presents five prompts about one goal and stores the written answers in SQLite. Despite the repository name, it does not implement grading, an AI evaluator, a validated assessment, or goal scoring. The browser submits a placeholder score of zero and empty submitter/evaluator labels.
 
 ![Written-response screen](docs/quiz-desktop.png)
 
@@ -64,4 +64,4 @@ Six Django API tests pass against a temporary SQLite test database, and six Reac
 
 The client moved from Create React App to Vite and Vitest, which removed the unmaintained build chain and its dependency advisories.
 
-Useful next decisions are the timing rule, an actual evaluation rubric if scoring is wanted, and authenticated ownership if this will collect real responses. The current endpoint is anonymous, accepts caller-provided identity labels/score, has no submission idempotency, and is a local exercise. The preset trivia prompts have not been validated as an assessment or fact-checked in this review. There is no claimed AI/ML component.
+Useful next decisions are the timing rule, an actual evaluation rubric if scoring is wanted, and authenticated ownership if this will collect real responses. The current endpoint is anonymous, accepts caller-provided identity labels/score, has no submission idempotency, and is a local exercise. The five goal prompts are plain reflective questions, not a validated assessment. There is no claimed AI/ML component.
