@@ -15,7 +15,8 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 
-# Local data
+# Local data and collected static files
+staticfiles/
 db.sqlite3
 *.sqlite3
 
