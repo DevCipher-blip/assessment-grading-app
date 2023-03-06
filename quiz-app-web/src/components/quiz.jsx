@@ -143,7 +143,7 @@ export default function Quiz() {
             {submitError && (
               <div role="alert" className="save-error">
                 <p>{submitError}</p>
-                <p>Your answers are still here. Try again when the API is reachable.</p>
+                <p>Your answers are still here.</p>
               </div>
             )}
             <div className="actions">
