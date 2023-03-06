@@ -185,7 +185,23 @@ progress {
   height: 6px;
   margin-top: 0.75rem;
   border: 0;
-  accent-color: var(--pitch);
+  border-radius: 3px;
+  overflow: hidden;
+  appearance: none;
+  background: var(--rule);
+  color: var(--pitch);
+}
+
+progress::-webkit-progress-bar {
+  background: var(--rule);
+}
+
+progress::-webkit-progress-value {
+  background: var(--pitch);
+}
+
+progress::-moz-progress-bar {
+  background: var(--pitch);
 }
 
 .hint {
