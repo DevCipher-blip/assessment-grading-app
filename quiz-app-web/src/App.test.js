@@ -4,6 +4,6 @@ import App from "./App";
 test("renders first quiz question", () => {
   render(<App />);
   expect(
-    screen.getByText("Is Milkyway the biggest galaxy in Universe?")
+    screen.getByText("Explain how you would validate an API request.")
   ).toBeInTheDocument();
 });

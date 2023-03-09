@@ -1,24 +1,24 @@
 const questions = [
   {
-    questionText: "Is Milkyway the biggest galaxy in Universe?",
-    answerText: "",
+    "questionText": "Explain how you would validate an API request.",
+    "answerText": ""
   },
   {
-    questionText: "Cactus is a flower?(Yes/No)",
-    answerText: "",
+    "questionText": "What should happen when a database transaction fails?",
+    "answerText": ""
   },
   {
-    questionText: "Is Tokyo the capital of Japan?(Yes/No)",
-    answerText: "",
+    "questionText": "Describe one way to make a form accessible.",
+    "answerText": ""
   },
   {
-    questionText: "Is China the most populated country in the world?(Yes/No)",
-    answerText: "",
+    "questionText": "When would you use a background job?",
+    "answerText": ""
   },
   {
-    questionText: "Algae is a plant?(Yes/No)",
-    answerText: "",
-  },
+    "questionText": "How would you test a failed network request?",
+    "answerText": ""
+  }
 ];
 
 export default questions;

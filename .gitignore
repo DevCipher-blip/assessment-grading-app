@@ -4,3 +4,10 @@ __pycache__/
 *.pyc
 db.sqlite3
 .DS_Store
+
+# Local configuration and generated output
+.venv/
+.env
+.env.*
+!.env.example
+quiz-app-web/build/

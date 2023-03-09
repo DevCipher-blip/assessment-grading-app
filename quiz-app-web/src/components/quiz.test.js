@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Quiz from "./quiz";
 import { QuizPost } from "../routes/api";
 
@@ -28,4 +28,37 @@ describe("Quiz component", () => {
     });
     expect(QuizPost).toHaveBeenCalledTimes(1);
   });
+});
+
+
+test("a failed final save preserves the answer for retry", async () => {
+  QuizPost.mockReset();
+  QuizPost.mockRejectedValueOnce(new Error("Network unavailable"));
+  QuizPost.mockResolvedValueOnce({ msg: "saved" });
+  render(<Quiz />);
+  for (let index = 0; index < 4; index += 1) {
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "draft" } });
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+  }
+  fireEvent.change(screen.getByRole("textbox"), { target: { value: "Keep this answer" } });
+  fireEvent.click(screen.getByRole("button", { name: "Submit" }));
+  await screen.findByRole("alert");
+  expect(screen.getByRole("textbox", { name: "Your answer" })).toHaveValue("Keep this answer");
+  fireEvent.click(screen.getByRole("button", { name: "Submit" }));
+  await screen.findByText("Thank you for taking this quiz.");
+  expect(QuizPost.mock.calls[1][0].question[4].answerText).toBe("Keep this answer");
+});
+
+
+test("typing does not extend the three-minute question limit", () => {
+  jest.useFakeTimers();
+  try {
+    render(<Quiz />);
+    act(() => jest.advanceTimersByTime(2 * 60 * 1000));
+    fireEvent.change(screen.getByRole("textbox"), { target: { value: "A partial answer" } });
+    act(() => jest.advanceTimersByTime(60 * 1000));
+    expect(screen.getByText("What should happen when a database transaction fails?")).toBeInTheDocument();
+  } finally {
+    jest.useRealTimers();
+  }
 });
